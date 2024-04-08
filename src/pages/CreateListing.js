@@ -2,9 +2,10 @@ import { useState, useEffect, useRef } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../components/Spinner';
+import { toast } from 'react-toastify';
 
 const CreateListing = () => {
-  const [geolocationEnabled, setGeolocationEnabled] = useState(false);
+  const [geolocationEnabled, setGeolocationEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     type: 'rent',
@@ -66,9 +67,45 @@ const CreateListing = () => {
     return <Spinner />;
   }
 
-  const onSubmit = (e) => {
+  const GEOLOC_URL = process.env.REACT_APP_GOOGLE_API_URL;
+  const GEOLOC_TOKEN = process.env.REACT_APP_GOOGLE_API_TOKEN;
+
+  const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    setLoading(true);
+
+    if (discountedPrice >= regularPrice) {
+      setLoading(false);
+      toast.error('Discounted price needs to be less than regular price');
+      return;
+    }
+
+    if (images.length > 6) {
+      setLoading(false);
+      toast.error('Max 6 images');
+      return;
+    }
+
+    let geolocation = {};
+    let location;
+
+    console.log('fire');
+
+    if (geolocationEnabled) {
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${GEOLOC_TOKEN}`
+      );
+
+      const data = await response.json();
+      console.log(data);
+    } else {
+      geolocation.lat = lat;
+      geolocation.lng = lng;
+      location = address;
+    }
+
+    setLoading(false);
   };
 
   const onMutate = (e) => {
