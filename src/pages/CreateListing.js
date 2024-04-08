@@ -90,15 +90,27 @@ const CreateListing = () => {
     let geolocation = {};
     let location;
 
-    console.log('fire');
-
     if (geolocationEnabled) {
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${GEOLOC_TOKEN}`
+        `${GEOLOC_URL}?address=${address}&key=${GEOLOC_TOKEN}`
       );
 
       const data = await response.json();
       console.log(data);
+
+      geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
+      geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
+
+      location =
+        data.status === 'ZERO_RESULTS'
+          ? undefined
+          : data.results[0]?.formatted_address;
+
+      if (location === undefined || location.includes('undefined')) {
+        setLoading(false);
+        toast.error('Please enter a correct address');
+        return;
+      }
     } else {
       geolocation.lat = lat;
       geolocation.lng = lng;
