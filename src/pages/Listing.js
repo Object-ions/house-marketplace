@@ -21,7 +21,7 @@ const Listing = () => {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        console.log(docSnap.data());
+        // console.log(docSnap.data());
         setListing(docSnap.data());
 
         setLoading(false);
@@ -30,6 +30,13 @@ const Listing = () => {
 
     fetchListing();
   }, [navigate, params.listingId]);
+
+  const addCommas = (num) =>
+    num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <main>
@@ -49,6 +56,51 @@ const Listing = () => {
       </div>
 
       {shareLinkCopied && <p className="linkCopied">Link Copied!</p>}
+
+      <div className="listingDetails">
+        <p className="listingName">
+          {listing.name} - $
+          {listing.offer
+            ? addCommas(listing.discountedPrice)
+            : addCommas(listing.regularPrice)}
+        </p>
+        <p className="listingLocation">{listing.location}</p>
+        <p className="listingType">
+          For {listing.type === 'rent' ? 'Rent' : 'Sale'}
+        </p>
+        {listing.offer && (
+          <p className="discountPrice">
+            ${listing.regularPrice - listing.discountedPrice} discount
+          </p>
+        )}
+
+        <ul className="listingDetailsList">
+          <li>
+            {listing.bedrooms > 1
+              ? `${listing.bedrooms} Bedrooms`
+              : '1 Bedroom'}
+          </li>
+          <li>
+            {listing.bathrooms > 1
+              ? `${listing.bathrooms} Bedrooms`
+              : '1 Bedroom'}
+          </li>
+          <li>{listing.parking && 'Parking Spot'}</li>
+          <li>{listing.furnished && 'Furnished'}</li>
+        </ul>
+
+        <p className="listingLocationTitle">Location</p>
+        {/* MAP */}
+
+        {auth.currentUser?.uid !== listing.userRef && (
+          <Link
+            to={`/contact/${listing.userRef}?listingName=${listing.name}&listingLocation=${listing.location}`}
+            className="primaryButton"
+          >
+            Contact Landlord
+          </Link>
+        )}
+      </div>
     </main>
   );
 };
