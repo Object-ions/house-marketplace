@@ -6,6 +6,7 @@ import { updateDoc, doc, collection, getDocs, query, where, orderBy, deleteDoc }
 import { toast } from 'react-toastify';
 import arrowRight from '../assets/svg/keyboardArrowRightIcon.svg';
 import homeIcon from '../assets/svg/homeIcon.svg';
+import ListingItem from '../components/ListingItem';
 
 const Profile = () => {
   const auth = getAuth();
@@ -98,6 +99,24 @@ const Profile = () => {
       [e.target.id]: e.target.value,
     }));
   };
+
+  const onDelete = async (listingId) => {
+    if (window.confirm('are you sure you want to delete?')) {
+      // Get a reference for the listing using its id to remove from db
+      const listingRef = doc(db, 'listings', listingId);
+
+      // Remove listing from DB
+      await deleteDoc(listingRef);
+
+      // Filter the deleted listing out
+      const updatedListings = listings.filter((listing) => listing.id !== listingId);
+
+      // Update state to show current listings list after deleting the item (Delete from the UI)
+      setListings(updatedListings);
+      toast.success('Listing deleted successfully');
+    }
+  }
+
   return (
     <>
       <div className="profile">
@@ -150,6 +169,17 @@ const Profile = () => {
             <p>Sell or rent your home</p>
             <img src={arrowRight} alt="arrow right" />
           </Link>
+
+          {!loading && listings?.length > 0 && (
+            <>
+              <p className="listingText">Your Listings:</p>
+              <ul className="listingsList">
+                {listings.map((listing) => (
+                  <ListingItem key={listing.id} listing={listing.data} id={listing.id} onDelete={() => onDelete(listing.id)}/>
+                ))}
+              </ul>
+            </>
+          )}
         </main>
       </div>
     </>
