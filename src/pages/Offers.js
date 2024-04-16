@@ -17,6 +17,8 @@ import ListingItem from '../components/ListingItem';
 const Offers = () => {
   const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [lastFetchedListing, setLastFetchedListing] = useState(null);
+
 
   const params = useParams();
 
@@ -37,6 +39,10 @@ const Offers = () => {
         // Execute the query
         const querySnap = await getDocs(q);
 
+        // Pagination
+        const lastVisible = querySnap.docs[querySnap.docs.length - 1];
+        setLastFetchedListing(lastVisible);
+
         let listings = [];
 
         querySnap.forEach((doc) => {
@@ -56,6 +62,48 @@ const Offers = () => {
 
     fetchListings();
   }, []);
+
+   // Load more (pagination)
+   const onFetchMoreListings = async () => {
+    try {
+      // Get a reference
+      const listingsRef = collection(db, 'listings');
+
+      // Create a query
+      const q = query(
+        listingsRef,
+        where('offer', '===', true),
+        orderBy('timestamp', 'desc'),
+        startAfter(lastFetchedListing),
+        
+        // How many more listings to add in the new fetch
+        limit(10)
+      );
+
+      // Execute the query
+      const querySnap = await getDocs(q);
+
+      // Pagination
+      const lastVisible = querySnap.docs[querySnap.docs.length - 1]
+      setLastFetchedListing(lastVisible)
+
+      const listings = []
+
+      querySnap.forEach((doc) => {
+        return listings.push({
+          id: doc.id,
+          data: doc.data(),
+        })
+      })
+
+      // If we want to keep adding 10 more listings and not replce them then we need to spread across the previous state
+      setListings((prevState) => [...prevState, ...listings])
+      setLoading(false)
+    } catch (error) {
+      toast.error('Could not fetch listings')
+    }
+  };
+
 
   return (
     <div className="category">
@@ -78,6 +126,14 @@ const Offers = () => {
               ))}
             </ul>
           </main>
+
+
+          <br />
+          <br />
+
+          {lastFetchedListing && (
+            <p className="loadMore" onClick={onFetchMoreListings}>Load More</p>
+          )}
         </>
       ) : (
         <p>There are not current offers</p>
