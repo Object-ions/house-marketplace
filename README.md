@@ -2,6 +2,8 @@
 
 by Moses Atia Poston
 
+[Live Website](https://house-marketplace-m-a.netlify.app/)
+
 ## Description
 
 The House Marketplace web application is a full-featured platform that allows users to explore, rent, and offer properties. This project was developed following Brad Traversy's comprehensive course on Udemy, ensuring best practices in web development and Firebase integration. The app is seamlessly deployed through Netlify, demonstrating modern deployment practices.
@@ -40,7 +42,8 @@ Included in this repository is an example configuration file (`example.newFireba
 1. **Clone the Repository**: Begin by cloning this template repository to your local machine or use it as a template to create a new GitHub repository.
 2. **Install Dependencies**: Navigate to the project directory and run `npm install` to install required dependencies.
 3. **Configure Firebase**: Follow the Firebase / Firestore setup guide linked above, and update the `newFirebase.config.js` file with your project's specific configurations.
-4. **Launch the Application**: Run `npm start` to launch the application. Navigate to the displayed URL in your browser to view and test the authentication flows. 5.**Environment Variables**: Set up the required environment variables for Firebase and Google API in Netlify as described in the Netlify documentation. - Set up your `.env` file with the necessary environment variables for local development.
+4. **Launch the Application**: Run `npm start` to launch the application. Navigate to the displayed URL in your browser to view and test the authentication.
+5. **Environment Variables**: Set up the required environment variables for Firebase and Google API in Netlify as described in the Netlify documentation. - Set up your `.env` file with the necessary environment variables for local development.
 
 ```
 REACT_APP_GOOGLE_API_TOKEN = "your googleApi token here"
