@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 // useParams will get the ID, useSearch params will get the query string
+// eslint-disable-next-line
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../newFirebase.config';
@@ -8,11 +9,13 @@ import { toast } from 'react-toastify';
 const Contact = () => {
   const [message, setMessage] = useState('');
   const [landlord, setLandlord] = useState(null);
+  // eslint-disable-next-line
   const [searchParams, setSearchParams] = useSearchParams();
 
   const params = useParams();
 
-  const navigate = useNavigate();
+  /* @todo: update navigating back to listing after contacting landlord  */
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const getLandlord = async () => {

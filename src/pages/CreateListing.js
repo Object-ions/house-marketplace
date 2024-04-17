@@ -14,6 +14,7 @@ import Spinner from '../components/Spinner';
 import { toast } from 'react-toastify';
 
 const CreateListing = () => {
+  // eslint-disable-next-line
   const [geolocationEnabled, setGeolocationEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -70,6 +71,7 @@ const CreateListing = () => {
     return () => {
       isMounted.curent = false;
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted]);
 
   if (loading) {

@@ -14,6 +14,7 @@ import Spinner from '../components/Spinner';
 import { toast } from 'react-toastify';
 
 const EditListing = () => {
+  // eslint-disable-next-line
   const [geolocationEnabled, setGeolocationEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [listing, setListing] = useState(false);
@@ -61,6 +62,7 @@ const EditListing = () => {
       toast.error('You can not edit that isting');
       navigate('/');
     }
+  // eslint-disable-next-line
   }, []);
 
   // Fetch listing to edit
@@ -102,6 +104,7 @@ const EditListing = () => {
     return () => {
       isMounted.curent = false;
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted]);
 
   if (loading) {
