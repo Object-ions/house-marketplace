@@ -4,15 +4,24 @@ by Moses Atia Poston
 
 ## Description
 
-This project serves as a foundational template for mobile web applications requiring robust user authentication and data storage solutions. Leveraging Firebase 9, it integrates comprehensive authentication functionalities, including sign-in mechanisms via email and password, alongside Google OAuth. The template extends its capabilities to store user data and images securely in Firebase Firestore, offering a streamlined setup for developers to kickstart their mobile web projects.
+The House Marketplace web application is a full-featured platform that allows users to explore, rent, and offer properties. This project was developed following Brad Traversy's comprehensive course on Udemy, ensuring best practices in web development and Firebase integration. The app is seamlessly deployed through Netlify, demonstrating modern deployment practices.
 
 ## Features
 
+- **Property Listings**: Users can browse houses for rent or sale, providing a rich interface with detailed descriptions.
+- **User Authentication**: Leverages Firebase for secure user registration and authentication.
+- **Image Storage**: Integrates Firebase Storage for image uploads, enabling users to add visuals to their listings.
+- **Responsive Design**: Crafted for an optimal mobile web experience but scales gracefully to larger screens.
+- **Real-time Data**: Utilizes Firebase Firestore for real-time data storage and retrieval.
 - **Email and Password Authentication**: Secure registration and sign-in processes for users.
 - **Google OAuth**: Offers an alternative sign-in option using Google accounts.
 - **Password Recovery**: Functionality to assist users in recovering their accounts.
 - **Profile Management**: Users can update their personal details.
 - **Data and Image Storage**: Utilizes Firebase Firestore for storing user data and images.
+
+## Deployment
+
+The application is deployed on Netlify, with continuous deployment set up to listen for changes on the main branch. Environment variables are used to securely incorporate API keys and Firebase configuration without exposing them to the public repository.
 
 ## Firebase / Firestore Setup
 
@@ -31,11 +40,12 @@ Included in this repository is an example configuration file (`example.newFireba
 1. **Clone the Repository**: Begin by cloning this template repository to your local machine or use it as a template to create a new GitHub repository.
 2. **Install Dependencies**: Navigate to the project directory and run `npm install` to install required dependencies.
 3. **Configure Firebase**: Follow the Firebase / Firestore setup guide linked above, and update the `newFirebase.config.js` file with your project's specific configurations.
-4. **Launch the Application**: Run `npm start` to launch the application. Navigate to the displayed URL in your browser to view and test the authentication flows.
+4. **Launch the Application**: Run `npm start` to launch the application. Navigate to the displayed URL in your browser to view and test the authentication flows. 5.**Environment Variables**: Set up the required environment variables for Firebase and Google API in Netlify as described in the Netlify documentation. - Set up your `.env` file with the necessary environment variables for local development.
 
-## Contributing
-
-Your contributions to improve this template are welcome. Whether it's adding new features, fixing bugs, or improving documentation, please feel free to fork this repository, make changes, and submit pull requests.
+```
+REACT_APP_GOOGLE_API_TOKEN = "your googleApi token here"
+REACT_APP_GOOGLE_API_URL = "https://maps.googleapis.com/maps/api/geocode/json"
+```
 
 ## License
 
